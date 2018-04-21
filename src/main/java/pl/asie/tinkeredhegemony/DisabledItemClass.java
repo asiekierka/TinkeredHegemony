@@ -27,6 +27,8 @@ import slimeknights.tconstruct.library.tools.IToolPart;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class DisabledItemClass {
@@ -35,6 +37,7 @@ public class DisabledItemClass {
 	private final Item tconItem;
 	private final Class<? extends Item> tconItemClass;
 	private final Collection<IToolPart> partsMaterialMatch;
+	private final Set<Item> itemSet;
 
 	public DisabledItemClass(String name, Predicate<Item> itemPredicate, Item tconItem, Class<? extends Item> tconItemClass, IToolPart... partsMaterialMatch) {
 		this.name = name;
@@ -42,6 +45,20 @@ public class DisabledItemClass {
 		this.tconItem = tconItem;
 		this.tconItemClass = tconItemClass;
 		this.partsMaterialMatch = ImmutableSet.copyOf(partsMaterialMatch);
+		this.itemSet = new HashSet<>();
+	}
+
+	public Set<Item> getItemSet() {
+		return itemSet;
+	}
+
+	protected void updateItemSet(Set<Item> set) {
+		itemSet.clear();
+		for (Item i : set) {
+			if (getItemPredicate().test(i)) {
+				itemSet.add(i);
+			}
+		}
 	}
 
 	public Collection<IToolPart> getPartsMaterialMatch() {

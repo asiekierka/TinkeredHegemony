@@ -90,13 +90,11 @@ public class RecipeTAPatchwork extends IForgeRegistryEntry.Impl<IRecipe> impleme
                     Item replItem = null;
 
                     if (validMaterials.size() > 0) {
-                        for (Item replacementItem : TinkeredHegemony.itemSet) {
-                            if (c.getItemPredicate().test(replacementItem)) {
-                                Collection<Material> ms = MaterialMatcher.get(replacementItem);
-                                if (ms != null && ms.containsAll(validMaterials)) {
-                                    replItem = replacementItem;
-                                    break;
-                                }
+                        for (Item replacementItem : c.getItemSet()) {
+                            Collection<Material> ms = MaterialMatcher.get(replacementItem);
+                            if (ms != null && ms.containsAll(validMaterials)) {
+                                replItem = replacementItem;
+                                break;
                             }
                         }
                     }

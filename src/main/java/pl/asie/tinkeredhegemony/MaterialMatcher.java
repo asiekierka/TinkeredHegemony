@@ -19,6 +19,7 @@
 
 package pl.asie.tinkeredhegemony;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -103,17 +104,19 @@ public class MaterialMatcher {
 					.toArray(ItemStack[]::new);
 
 			// let's try to heuristically determine!
-			List<Material> mats = new ArrayList<>();
+			ImmutableList.Builder<Material> mats = new ImmutableList.Builder<>();
+			boolean empty = true;
 
 			for (Material m : TinkerMaterials.materials) {
 				Optional<RecipeMatch.Match> match = m.matches(ingredients);
 				if (match.isPresent()) {
 					mats.add(m);
+					empty = false;
 				}
 			}
 
-			if (!mats.isEmpty()) {
-				return mats;
+			if (!empty) {
+				return mats.build();
 			}
 
 			TinkeredHegemony.logger.warn("Could not find material for item " + i.getRegistryName() + "!");

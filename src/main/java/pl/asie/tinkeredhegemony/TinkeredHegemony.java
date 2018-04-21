@@ -58,7 +58,7 @@ public class TinkeredHegemony {
     protected static final Set<DisabledItemClass> classMap = new HashSet<>();
     protected static final Set<Item> itemSet = new HashSet<>();
 
-    private boolean performRecipeReplacement;
+    private boolean performRecipeReplacement, performRecipePatchwork, performItemDisabling, performItemNeutralizing;
 
     private void addIfConfigured(DisabledItemClass disabledItemClass, boolean def) {
         if (config.getBoolean("disable", disabledItemClass.getName(), def, "")) {
@@ -71,12 +71,23 @@ public class TinkeredHegemony {
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
 
+        performItemDisabling = config.getBoolean("performItemDisabling", "general", true, "Should vanilla item recipes be removed?");
+        performItemNeutralizing = config.getBoolean("performItemNeutralizing", "general", true, "Should vanilla tool items be effectively nullified (maximum damage set to 1)?");
+        performRecipePatchwork = config.getBoolean("performRecipePatchwork", "general", true, "Should Tinkers' Construct items be capable of replacing vanilla equivalents in recipes?");
+        performRecipeReplacement = config.getBoolean("performRecipeReplacement", "general", true, "Should ingredients be replaced in compatible recipes? This will primarily affect recipe guides.");
+
+        if (config.hasChanged()) {
+            config.save();
+        }
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRegisterRecipe(RegistryEvent.Register<IRecipe> event) {
-        event.getRegistry().register(new RecipeTAPatchwork().setRegistryName("tinkeredhegemony:replacement"));
+        if (performRecipePatchwork) {
+            event.getRegistry().register(new RecipeTAPatchwork().setRegistryName("tinkeredhegemony:replacement"));
+        }
     }
 
     @Mod.EventHandler
@@ -89,8 +100,6 @@ public class TinkeredHegemony {
         addIfConfigured(new DisabledItemClass("bow", (i) -> i instanceof ItemBow, TinkerRangedWeapons.shortBow, ShortBow.class, TinkerTools.bowLimb), true);
 
         MaterialMatcher.init(config);
-
-        performRecipeReplacement = config.getBoolean("performRecipeReplacement", "general", true, "Should ingredients be replaced in compatible IRecipes? This will primarily affect recipe guides.");
 
         if (config.hasChanged()) {
             config.save();
@@ -106,8 +115,10 @@ public class TinkeredHegemony {
             if (optc.isPresent()) {
                 if (config.getBoolean(i.getRegistryName().toString(), "disabledItems", true, "")) {
                     DisabledItemClass c = optc.get();
-                    originalDurabilities.put(i, i.getMaxDamage(new ItemStack(i)));
-                    i.setMaxDamage(1);
+                    if (performItemNeutralizing) {
+                        originalDurabilities.put(i, i.getMaxDamage(new ItemStack(i)));
+                        i.setMaxDamage(1);
+                    }
                     itemSet.add(i);
                 }
             }
@@ -115,19 +126,27 @@ public class TinkeredHegemony {
 
         Set<Item> itemsNotified = Sets.newHashSet(itemSet);
 
-        Iterator<IRecipe> iterator = CraftingManager.REGISTRY.iterator();
-        while (iterator.hasNext()) {
-            IRecipe recipe = iterator.next();
-            ItemStack output = recipe.getRecipeOutput();
-            if (!output.isEmpty() && itemSet.contains(output.getItem())) {
-                ForgeRegistries.RECIPES.register(new RecipeDummy(recipe.getGroup()).setRegistryName(recipe.getRegistryName()));
-                logger.info("Disabled " + Item.REGISTRY.getNameForObject(output.getItem()).toString() + " (removed recipe)");
-                itemsNotified.remove(output.getItem());
+        if (performItemDisabling) {
+            Iterator<IRecipe> iterator = CraftingManager.REGISTRY.iterator();
+            while (iterator.hasNext()) {
+                IRecipe recipe = iterator.next();
+                ItemStack output = recipe.getRecipeOutput();
+                if (!output.isEmpty() && itemSet.contains(output.getItem())) {
+                    ForgeRegistries.RECIPES.register(new RecipeDummy(recipe.getGroup()).setRegistryName(recipe.getRegistryName()));
+                    logger.info("Disabled " + Item.REGISTRY.getNameForObject(output.getItem()).toString() + " (removed recipe)");
+                    itemsNotified.remove(output.getItem());
+                }
             }
         }
 
-        for (Item i : itemsNotified) {
-            logger.info("Disabled " + Item.REGISTRY.getNameForObject(i).toString());
+        if (performItemNeutralizing || performItemDisabling) {
+            for (Item i : itemsNotified) {
+                logger.info("Disabled " + Item.REGISTRY.getNameForObject(i).toString());
+            }
+        }
+c
+        for (DisabledItemClass c : classMap) {
+            c.updateItemSet(itemSet);
         }
 
         if (performRecipeReplacement) {

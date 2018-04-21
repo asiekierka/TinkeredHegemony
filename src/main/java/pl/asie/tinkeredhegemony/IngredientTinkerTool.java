@@ -72,9 +72,12 @@ public class IngredientTinkerTool extends Ingredient {
                     Material m = materials.get(i);
                     PartMaterialType c = components.get(i);
                     for (IToolPart part : c.getPossibleParts()) {
-                        partsSeen.add(part);
                         if (rp.remove(Pair.of(m, part))) {
                             partsFound.add(part);
+                        } else {
+                            // we only use the sets for the .removeIf below,
+                            // and partsFound.contains() is sufficient
+                            partsSeen.add(part);
                         }
                     }
                 }
