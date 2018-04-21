@@ -1,0 +1,17 @@
+{
+    "modListVersion": 2,
+    "modList": [
+        {
+            "modid": "tinkeredhegemony",
+            "name": "Tinkered Hegemony",
+            "version": "${version}",
+            "mcversion": "${mcversion}",
+            "description": "Powerful way to disable vanilla tools and replace them with Tinker's Construct equivalents.",
+            "authorList": [
+                "asiekierka"
+            ],
+            "url": "http://asie.pl",
+            "updateUrl": "http://asie.pl/files/minecraft/update/tinkeredhegemony.json"
+        }
+    ]
+}

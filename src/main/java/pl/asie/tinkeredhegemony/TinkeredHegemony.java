@@ -49,7 +49,7 @@ import slimeknights.tconstruct.tools.tools.Shovel;
 
 import java.util.*;
 
-@Mod(modid = "tinkeredhegemony", name = "Tinkered Hegemony", dependencies = "required-after:tconstruct", version = "@VERSION@")
+@Mod(modid = "tinkeredhegemony", name = "Tinkered Hegemony", dependencies = "required-after:tconstruct", version = "@VERSION@", updateJSON = "http://asie.pl/files/minecraft/update/tinkeredhegemony.json")
 public class TinkeredHegemony {
     public static Logger logger;
     private static Configuration config;
