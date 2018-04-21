@@ -1,27 +1,24 @@
 /*
  * Copyright (c) 2015, 2016, 2017, 2018 Adrian Siekierka
  *
- * This file is part of TinkeredAutocracy.
+ * This file is part of Tinkered Hegemony.
  *
- * TinkeredAutocracy is free software: you can redistribute it and/or modify
+ * Tinkered Hegemony is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * TinkeredAutocracy is distributed in the hope that it will be useful,
+ * Tinkered Hegemony is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with TinkeredAutocracy.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Tinkered Hegemony.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.asie.tinkeredautocracy;
+package pl.asie.tinkeredhegemony;
 
-import com.google.common.collect.Sets;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,7 +27,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tinkering.TinkersItem;
@@ -52,7 +48,7 @@ public class RecipeTAPatchwork extends IForgeRegistryEntry.Impl<IRecipe> impleme
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack s = inv.getStackInSlot(i);
             if (!s.isEmpty() && s.getItemDamage() == 0) {
-                for (DisabledItemClass c : TinkeredAutocracy.classMap) {
+                for (DisabledItemClass c : TinkeredHegemony.classMap) {
                     if (!c.tconItemMatches(s.getItem())) {
                         continue;
                     }
@@ -94,7 +90,7 @@ public class RecipeTAPatchwork extends IForgeRegistryEntry.Impl<IRecipe> impleme
                     Item replItem = null;
 
                     if (validMaterials.size() > 0) {
-                        for (Item replacementItem : TinkeredAutocracy.itemSet) {
+                        for (Item replacementItem : TinkeredHegemony.itemSet) {
                             if (c.getItemPredicate().test(replacementItem)) {
                                 Collection<Material> ms = MaterialMatcher.get(replacementItem);
                                 if (ms != null && ms.containsAll(validMaterials)) {

@@ -1,30 +1,24 @@
 /*
  * Copyright (c) 2015, 2016, 2017, 2018 Adrian Siekierka
  *
- * This file is part of TinkeredAutocracy.
+ * This file is part of Tinkered Hegemony.
  *
- * TinkeredAutocracy is free software: you can redistribute it and/or modify
+ * Tinkered Hegemony is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * TinkeredAutocracy is distributed in the hope that it will be useful,
+ * Tinkered Hegemony is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with TinkeredAutocracy.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Tinkered Hegemony.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.asie.tinkeredautocracy;
+package pl.asie.tinkeredhegemony;
 
-import gnu.trove.iterator.TCharIterator;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.map.TCharObjectMap;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TCustomHashMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -33,9 +27,6 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.IngredientNBT;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import slimeknights.tconstruct.library.materials.Material;
@@ -60,8 +51,8 @@ public class RecipeReplacement {
 			ItemStack[] matchingStacks = ing.getMatchingStacks();
 			if (matchingStacks.length == 1) {
 				ItemStack s = matchingStacks[0];
-				if (TinkeredAutocracy.itemSet.contains(s.getItem())) {
-					for (DisabledItemClass c : TinkeredAutocracy.classMap) {
+				if (TinkeredHegemony.itemSet.contains(s.getItem())) {
+					for (DisabledItemClass c : TinkeredHegemony.classMap) {
 						if (c.getItemPredicate().test(s.getItem())) {
 							Collection<Material> ms = MaterialMatcher.get(s.getItem());
 							if (ms != null) {
@@ -94,7 +85,7 @@ public class RecipeReplacement {
 			}
 
 			if (dirty) {
-				TinkeredAutocracy.logger.info("Successfully edited " + recipeName + "!");
+				TinkeredHegemony.logger.info("Successfully edited " + recipeName + "!");
 			}
 		}
 	}

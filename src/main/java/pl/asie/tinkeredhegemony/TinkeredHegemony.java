@@ -1,34 +1,30 @@
 /*
  * Copyright (c) 2015, 2016, 2017, 2018 Adrian Siekierka
  *
- * This file is part of TinkeredAutocracy.
+ * This file is part of Tinkered Hegemony.
  *
- * TinkeredAutocracy is free software: you can redistribute it and/or modify
+ * Tinkered Hegemony is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * TinkeredAutocracy is distributed in the hope that it will be useful,
+ * Tinkered Hegemony is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with TinkeredAutocracy.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Tinkered Hegemony.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.asie.tinkeredautocracy;
+package pl.asie.tinkeredhegemony;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Sets;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
@@ -39,10 +35,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.Logger;
-import slimeknights.tconstruct.library.materials.Material;
-import slimeknights.tconstruct.library.tools.IToolPart;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.harvest.TinkerHarvestTools;
 import slimeknights.tconstruct.tools.melee.TinkerMeleeWeapons;
@@ -54,11 +47,10 @@ import slimeknights.tconstruct.tools.tools.Mattock;
 import slimeknights.tconstruct.tools.tools.Pickaxe;
 import slimeknights.tconstruct.tools.tools.Shovel;
 
-import java.rmi.registry.Registry;
 import java.util.*;
 
-@Mod(modid = "tinkeredautocracy", name = "Tinkered Autocracy", dependencies = "required-after:tconstruct", version = "@VERSION@")
-public class TinkeredAutocracy {
+@Mod(modid = "tinkeredhegemony", name = "Tinkered Hegemony", dependencies = "required-after:tconstruct", version = "@VERSION@")
+public class TinkeredHegemony {
     public static Logger logger;
     private static Configuration config;
 
@@ -84,7 +76,7 @@ public class TinkeredAutocracy {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRegisterRecipe(RegistryEvent.Register<IRecipe> event) {
-        event.getRegistry().register(new RecipeTAPatchwork().setRegistryName("tinkeredautocracy:replacement"));
+        event.getRegistry().register(new RecipeTAPatchwork().setRegistryName("tinkeredhegemony:replacement"));
     }
 
     @Mod.EventHandler

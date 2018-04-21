@@ -14,8 +14,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'net.minecrell.licenser'
 
 version = "0.1.0"
-group = "pl.asie.tinkeredautocracy"
-archivesBaseName = "TinkeredAutocracy"
+group = "pl.asie.tinkeredhegemony"
+archivesBaseName = "TinkeredHegemony"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
