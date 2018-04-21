@@ -144,7 +144,7 @@ public class TinkeredHegemony {
                 logger.info("Disabled " + Item.REGISTRY.getNameForObject(i).toString());
             }
         }
-c
+
         for (DisabledItemClass c : classMap) {
             c.updateItemSet(itemSet);
         }
