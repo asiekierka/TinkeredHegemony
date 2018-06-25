@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'net.minecrell.licenser'
 
-version = "0.1.1"
+version = "0.2.0"
 group = "pl.asie.tinkeredhegemony"
 archivesBaseName = "TinkeredHegemony"
 
@@ -34,10 +34,10 @@ dependencies {
 }
 
 minecraft {
-    version = "1.12.2-14.23.3.2669"
+    version = "1.12.2-14.23.4.2712"
     runDir = "run"
     
-    mappings = "snapshot_20180420"
+    mappings = "snapshot_20180624"
 
     replace "\${version}", project.version
     replace "\${mcversion}", version
@@ -50,6 +50,9 @@ repositories {
     }
     maven {
         url "http://maven.blamejared.com/"
+    }
+    ivy {
+        artifactPattern "http://asie.pl/javadeps/[module]-[revision](-[classifier]).[ext]"
     }
 }
 
@@ -71,10 +74,11 @@ license {
 }
 
 dependencies {
-    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.6.457"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.6.467"
     deobfCompile "slimeknights.mantle:Mantle:1.12-1.3.2.25"
-    deobfCompile "slimeknights:TConstruct:1.12.2-2.9.1.70"
-    deobfCompile "mezz.jei:jei_1.12.2:4.8.6.161"
+    deobfCompile "slimeknights:TConstruct:1.12.2-2.10.1.91"
+    deobfCompile "mezz.jei:jei_1.12.2:4.10.0.200"
+    deobfCompile name: "conarm", version: "1.12.2-1.0.0"
 }
 
 processResources {

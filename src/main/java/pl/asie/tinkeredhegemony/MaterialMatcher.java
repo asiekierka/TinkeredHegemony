@@ -40,26 +40,39 @@ public class MaterialMatcher {
 		materialMap.put(i, ImmutableSet.copyOf(materials));
 	}
 
-	private static Material get(Configuration config, String key, String name) {
-		name = config.getString(key, "materialMap", name, "");
+	private static Material find(String name) {
 		for (Material m : TinkerMaterials.materials) {
 			if (m.identifier.equals(name)) {
 				return m;
 			}
 		}
 
-		TinkeredHegemony.logger.warn("Could not find material '"+name+"'!");
 		return null;
 	}
 
-	public static void init(Configuration config) {
+	private static Material[] get(Configuration config, String key, String name) {
+		String[] names = config.getStringList(key, "materialMap", new String[] { name }, "Will match any material on this list for the head, or all materials if empty.");
+		Material[] materials = Arrays.stream(names).map(MaterialMatcher::find).filter(Objects::nonNull).toArray(Material[]::new);
+
+		if (config.hasChanged() && TinkeredHegemony.lastSave) {
+			config.save();
+		}
+
+		if (materials.length == 0) {
+			TinkeredHegemony.logger.warn("Could not find material '" + name + "'!");
+		}
+		return materials;
+	}
+
+	static void init(Configuration config) {
 		materialMap.clear();
 
-		Material woodLike = get(config, "wood", "wood");
-		Material stoneLike = get(config, "stone", "stone");
-		Material ironLike = get(config, "iron", "iron");
-		Material goldLike = get(config, "gold", "cobalt");
-		Material diamondLike = get(config, "diamond", "manyullyn");
+		Material[] woodLike = get(config, "wood", "wood");
+		Material[] stoneLike = get(config, "stone", "stone");
+		Material[] ironLike = get(config, "iron", "iron");
+		Material[] goldLike = get(config, "gold", "cobalt");
+		Material[] diamondLike = get(config, "diamond", "manyullyn");
+		Material[] leatherLike = get(config, "leather", "paper");
 
 		add(Items.WOODEN_AXE, woodLike);
 		add(Items.WOODEN_HOE, woodLike);
@@ -91,6 +104,26 @@ public class MaterialMatcher {
 		add(Items.DIAMOND_PICKAXE, diamondLike);
 		add(Items.DIAMOND_SHOVEL, diamondLike);
 		add(Items.DIAMOND_SWORD, diamondLike);
+
+		add(Items.LEATHER_HELMET, leatherLike);
+		add(Items.LEATHER_CHESTPLATE, leatherLike);
+		add(Items.LEATHER_LEGGINGS, leatherLike);
+		add(Items.LEATHER_BOOTS, leatherLike);
+
+		add(Items.IRON_HELMET, ironLike);
+		add(Items.IRON_CHESTPLATE, ironLike);
+		add(Items.IRON_LEGGINGS, ironLike);
+		add(Items.IRON_BOOTS, ironLike);
+
+		add(Items.GOLDEN_HELMET, goldLike);
+		add(Items.GOLDEN_CHESTPLATE, goldLike);
+		add(Items.GOLDEN_LEGGINGS, goldLike);
+		add(Items.GOLDEN_BOOTS, goldLike);
+
+		add(Items.DIAMOND_HELMET, goldLike);
+		add(Items.DIAMOND_CHESTPLATE, goldLike);
+		add(Items.DIAMOND_LEGGINGS, goldLike);
+		add(Items.DIAMOND_BOOTS, goldLike);
 	}
 
 	@Nullable
