@@ -1,0 +1,11 @@
+Additions:
+
+* Hide all JEI recipes which output a disabled vanilla tool.
+    * Recipes which only take one in as input are not disabled by default.
+      They are often responsible for smelting, etc. You can force disabling
+      these with an additional configuration option.
+
+Bugs fixed:
+
+* Fix being able to create disabled vanilla tools from Tinkers' recipes.
+* Fix crash with Construct's Armory armor recipe replacements.

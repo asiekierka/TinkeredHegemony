@@ -83,8 +83,8 @@ public class DisabledItemClass {
 
 	public IngredientTinkerTool createIngredient(Collection<Material> materials) {
 		ImmutableSet.Builder<Pair<Material, IToolPart>> data = new ImmutableSet.Builder<>();
-		for (Material m : materials) {
-			for (IToolPart p : partsMaterialMatch) {
+		for (IToolPart p : partsMaterialMatch) {
+			for (Material m : materials) {
 				data.add(Pair.of(m, p));
 			}
 		}

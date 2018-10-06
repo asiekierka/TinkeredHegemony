@@ -58,9 +58,12 @@ public class IngredientTinkerTool extends Ingredient {
             return false;
         }
 
-        if (stack.getItem() instanceof TinkersItem && itemClass.isAssignableFrom(stack.getItem().getClass()) && stack.hasTagCompound()) {
+        if (itemClass.isAssignableFrom(stack.getItem().getClass()) && stack.hasTagCompound()) {
             List<Material> materials = TinkerUtil.getMaterialsFromTagList(TagUtil.getBaseMaterialsTagList(stack));
-            List<PartMaterialType> components = ((TinkersItem) stack.getItem()).getRequiredComponents();
+            List<PartMaterialType> components = TinkerReflectionWrapper.getRequiredComponents(stack.getItem());
+            if (components.isEmpty()) {
+                return false;
+            }
 
             Set<IToolPart> partsSeen = new HashSet<>();
             Set<IToolPart> partsFound = new HashSet<>();

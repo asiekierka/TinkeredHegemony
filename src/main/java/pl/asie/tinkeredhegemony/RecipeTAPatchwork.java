@@ -67,7 +67,7 @@ public class RecipeTAPatchwork extends IForgeRegistryEntry.Impl<IRecipe> impleme
 
                     {
                         List<Material> materials = TinkerUtil.getMaterialsFromTagList(TagUtil.getBaseMaterialsTagList(s));
-                        List<PartMaterialType> components = ((TinkersItem) s.getItem()).getRequiredComponents();
+                        List<PartMaterialType> components = TinkerReflectionWrapper.getRequiredComponents(s.getItem());
 
                         if (components.size() <= materials.size()) {
                             for (int j = 0; j < components.size(); j++) {
@@ -115,7 +115,19 @@ public class RecipeTAPatchwork extends IForgeRegistryEntry.Impl<IRecipe> impleme
         if (!(inv instanceof InventoryCraftingPatched)) {
             InventoryCrafting invPatched = getInvPatched(inv);
             if (invPatched != null) {
-                return CraftingManager.findMatchingRecipe(invPatched, worldIn) != null;
+                IRecipe recipe = CraftingManager.findMatchingRecipe(invPatched, worldIn);
+                if (recipe != null) {
+                    ItemStack output = recipe.getCraftingResult(invPatched);
+                    if (!output.isEmpty()) {
+                        for (DisabledItemClass c : TinkeredHegemony.classMap) {
+                            if (c.getItemPredicate().test(output.getItem())) {
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+                }
             }
         }
         return false;

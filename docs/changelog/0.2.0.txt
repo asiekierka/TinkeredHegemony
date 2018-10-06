@@ -1,0 +1,6 @@
+PLEASE NOTE: YOU *MUST* REGENERATE tinkeredhegemony.cfg AFTER THIS UPDATE!
+
+* Allowed setting multiple matching materials for each vanilla material type.
+* Added replacing shields with battlesigns.
+* Added Construct's Armory support (helmet, chestplate, leggings, boots).
+* Added support for hiding disabled items in JEI.
